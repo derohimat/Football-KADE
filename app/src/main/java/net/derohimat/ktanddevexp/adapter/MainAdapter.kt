@@ -3,17 +3,15 @@ package net.derohimat.ktanddevexp.adapter
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import com.bumptech.glide.Glide
-import net.derohimat.ktanddevexp.R
+import kotlinx.android.synthetic.main.item_view.view.*
 import net.derohimat.ktanddevexp.model.Item
 import net.derohimat.ktanddevexp.view.ItemViewUI
 import org.jetbrains.anko.AnkoContext
 
-class MainAdapter(ls: MutableList<Item>, val listener: (Item) -> Unit) : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
+class MainAdapter(list: MutableList<Item>, private val listener: (Item) -> Unit) : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
-    var mutableList: MutableList<Item> = ls
+    private var mutableList: MutableList<Item> = list
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(mutableList[position], listener)
@@ -28,13 +26,11 @@ class MainAdapter(ls: MutableList<Item>, val listener: (Item) -> Unit) : Recycle
     }
 
     class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
-        val imgIcon: ImageView = itemView?.findViewById(R.id.image) as ImageView
-        val txtName: TextView = itemView?.findViewById(R.id.name) as TextView
 
         fun bind(item: Item, listener: (Item) -> Unit) = with(itemView) {
 
-            txtName.text = item.name
-            Glide.with(itemView.context).load(item.image).into(imgIcon)
+            itemView.name.text = item.name
+            Glide.with(itemView.context).load(item.image).into(itemView.image)
             setOnClickListener { listener(item) }
         }
     }
